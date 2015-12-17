@@ -11,6 +11,14 @@ Add an error message (either alert or a notification on the page) if the app can
 
 */
 
+// select the first three articles in the articles array and save them to global variables for each of the 3 articles
+
+// Error message -> if returns a 404 then present an error message
+
+	var title;
+	var description;
+
+	
 	var article1 = {
 		"title": "Fake Title",
 		"description" : "blah blah",
@@ -24,10 +32,14 @@ Add an error message (either alert or a notification on the page) if the app can
 	var $popUp = $('#popUp');
 	var $closePopUp = $('.closePopUp');
 
-//open popup
+//open popup and add contents of fake article1:
 	$article.on('click', function(event) {
 		if(event.type == 'click') {
 			$popUp.removeClass('loader hidden');
+			$('#popUp h1').append(title);
+
+			// $.append
+			// $.html
 		};
 	});
 
@@ -37,6 +49,18 @@ Add an error message (either alert or a notification on the page) if the app can
 			$popUp.addClass('loader hidden');
 		};
 	});
+
+
+//Reddit's API
+  $.ajax({
+  	url: 'https://www.reddit.com/top.json',
+  	success: function(response) {
+  		var articles = response.data.children;
+  		title = response.data.children[0].data.title
+  		var first_article = articles[0]
+  		console.log(response.data.children[0].data.title);
+  	}
+  });	
 
 
 
