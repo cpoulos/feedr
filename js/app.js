@@ -1,7 +1,3 @@
-window.onload = function() {
-
-	//hide webpage onload
-
 /*
   Please add all Javascript code to this file.
 
@@ -30,6 +26,32 @@ Add an error message (either alert or a notification on the page) if the app can
 	var $popUp = $('#popUp');
 	var $closePopUp = $('.closePopUp');
 
+
+//Reddit's API
+  $.ajax({
+  	url: 'https://www.reddit.com/top.json',
+  	success: function(response) {
+  		articlesArray = response.data.children;
+
+  	}
+  });	
+
+$(document).ready(function() {  
+
+  	setTimeout(function() {
+		//set article headers on load
+		$.each($('.articleContent h3'), function(i) {
+			// console.log(articlesArray[i].data.title);		
+			$(this).html(articlesArray[i].data.title);
+			return (this);
+		});
+
+	}, 200);
+
+//hide webpage onload
+$('#main').fadeIn(1000);
+
+
 //Open popup and add contents of First Article://
 	$article.on('click', function(event) {
 		if(event.type == 'click') {
@@ -57,27 +79,6 @@ Add an error message (either alert or a notification on the page) if the app can
 
 
 
-//Reddit's API
-  $.ajax({
-  	url: 'https://www.reddit.com/top.json',
-  	success: function(response) {
-  		articlesArray = response.data.children;
-
-  	}
-  });	
-
-  	setTimeout(function() {
-		//set article headers on load
-		$.each($('.articleContent h3'), function(i) {
-			// console.log(articlesArray[i].data.title);		
-			$(this).html(articlesArray[i].data.title);
-			return (this);
-		});
-
-		
-		
-	}, 1000);
-
 
 
         // <section id="main" class="container">
@@ -95,4 +96,4 @@ Add an error message (either alert or a notification on the page) if the app can
           //   <div class="clearfix"></div>
           // </article>
 
-};
+});
