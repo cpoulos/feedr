@@ -40,16 +40,21 @@ $(document).ready(function() {
 
   	setTimeout(function() {
 		//set article headers on load
-		$.each($('.articleContent h3'), function(i) {
+		$.each($('.article'), function(i) {
 			// console.log(articlesArray[i].data.title);		
-			$(this).html(articlesArray[i].data.title);
+			$(this).find('.articleContent h3').html(articlesArray[i].data.title);
+			$(this).find('img').attr("src", articlesArray[i].data.preview.images[0].source.url);
+			$(this).find('.articleContent h6').html(articlesArray[i].data.subreddit);
+			$(this).find('.impressions').html(articlesArray[i].data.ups);			
 			return (this);
 		});
 
-	}, 200);
+		// $.each($(''))
+
+	}, 100);
 
 //hide webpage onload
-$('#main').fadeIn(1000);
+$('#main').fadeIn(800);
 
 
 //Open popup and add contents of First Article://
