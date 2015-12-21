@@ -35,15 +35,9 @@ $.ajax({
 	url: 'https://www.reddit.com/top.json',
 	success: function(response) {
 		articlesArray = response.data.children;
-
-	}
-});	
-
-$(document).ready(function() {  
-
-  	setTimeout(function() {
-		//set article headers on load
+		
 		$.each($('.article'), function(i) {
+			//$(articlesArray).each (function {} // this
 			// console.log(articlesArray[i].data.title);	
 			
 			//variables that store 'this' of each thing needed
@@ -77,16 +71,25 @@ $(document).ready(function() {
 						if(event.type == 'click') {
 							// console.log(url);
 							$(this).attr("href", url);
+							// $popUp.addClass('loader hidden');
 						};
 					});
 				};
 			});	
 
 			return (this);
-
-
 		});
-	}, 400);
+	}	
+});	
+
+$(document).ready(function() {  
+
+ //  	setTimeout(function() {
+	// 	//set article headers on load
+
+
+	// 	});
+	// }, 400);
 
 	//hide/ fade in webpage onload
 	$('#main').fadeIn(1500);
