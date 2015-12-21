@@ -10,12 +10,17 @@ Add an error message (either alert or a notification on the page) if the app can
 
 */
 
-// select the first three articles in the articles array and save them to global variables for each of the 3 articles
+/* To Do:
+	1. add search icon feature
+	2. add error message when JSON doesn't load
+	3. fix bug when new data from reddit occasionally doesn't load
 
-// Error message -> if returns a 404 then present an error message
+*/
 
-//First Article Global Variables//
-var articlesArray; //array of all of the reddit articles
+
+
+//Global array that stores all of the reddit articles from the API call//
+var articlesArray;
 
 //Variables for jQuery Elements://
 var $main = $('#main');
@@ -68,8 +73,6 @@ $(document).ready(function() {
 					$popUp.removeClass('loader hidden');
 					$('#popUp').find('h1').html(title);
 					$('#popUp').find('p').html(topic);
-					
-
 					$('.popUpAction').on('click', function(event) {
 						if(event.type == 'click') {
 							// console.log(url);
@@ -83,10 +86,10 @@ $(document).ready(function() {
 
 
 		});
-	}, 200);
+	}, 400);
 
-	//hide webpage onload
-	$('#main').fadeIn(1000);
+	//hide/ fade in webpage onload
+	$('#main').fadeIn(1500);
 
 	//close popup
 	$closePopUp.on('click', function(event) {
