@@ -72,7 +72,7 @@ $(document).ready(function() {
 
 					$('.popUpAction').on('click', function(event) {
 						if(event.type == 'click') {
-							console.log(url);
+							// console.log(url);
 							$(this).attr("href", url);
 						};
 					});
