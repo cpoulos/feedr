@@ -15,90 +15,86 @@ Add an error message (either alert or a notification on the page) if the app can
 // Error message -> if returns a 404 then present an error message
 
 //First Article Global Variables//
-	var title;
-	var url;
-	var articlesArray; //array of all of the reddit articles
+var articlesArray; //array of all of the reddit articles
 
 //Variables for jQuery Elements://
-	var $main = $('#main');
-	var $article = $('.article');
-	var $featuredImage = $('.featuredImage');
-	var $popUp = $('#popUp');
-	var $closePopUp = $('.closePopUp');
+var $main = $('#main');
+var $article = $('.article');
+var $featuredImage = $('.featuredImage');
+var $popUp = $('#popUp');
+var $closePopUp = $('.closePopUp');
 
 
 //Reddit's API
-  $.ajax({
-  	url: 'https://www.reddit.com/top.json',
-  	success: function(response) {
-  		articlesArray = response.data.children;
+$.ajax({
+	url: 'https://www.reddit.com/top.json',
+	success: function(response) {
+		articlesArray = response.data.children;
 
-  	}
-  });	
+	}
+});	
 
 $(document).ready(function() {  
 
   	setTimeout(function() {
 		//set article headers on load
 		$.each($('.article'), function(i) {
-			// console.log(articlesArray[i].data.title);		
-			$(this).find('.articleContent h3').html(articlesArray[i].data.title);
-			$(this).find('img').attr("src", articlesArray[i].data.preview.images[0].source.url);
-			$(this).find('.articleContent h6').html(articlesArray[i].data.subreddit);
+			// console.log(articlesArray[i].data.title);	
+			
+			//variables that store 'this' of each thing needed
+			var title = articlesArray[i].data.title;
+			var url = articlesArray[i].data.url;
+			var ups = articlesArray[i].data.ups;
+			var topic = articlesArray[i].data.subreddit;
+			var thumbnail = articlesArray[i].data.thumbnail;
+
+			
+			//populating the DOM with the data from the variables
+			$(this).find('.articleContent h3').html(title);			
 			$(this).find('.impressions').html(articlesArray[i].data.ups);			
+			$(this).find('.articleContent h6').html(articlesArray[i].data.subreddit);
+			
+			//checks to see if there is a thumbnail.  If not returns yoda
+			if (thumbnail !== "") {
+				$(this).find('img').attr("src", articlesArray[i].data.thumbnail);
+			} else {
+				$(this).find('img').attr("src", "images/yoda.jpg");
+			};
+			
+			//open popup and Display content
+			$(this).on('click', function(event) {
+				if(event.type == 'click') {
+					event.preventDefault();
+					$popUp.removeClass('loader hidden');
+					$('#popUp').find('h1').html(title);
+					$('#popUp').find('p').html(topic);
+					
+
+					$('.popUpAction').on('click', function(event) {
+						if(event.type == 'click') {
+							console.log(url);
+							$(this).attr("href", url);
+						};
+					});
+				};
+			});	
+
 			return (this);
+
+
 		});
+	}, 200);
 
-		// $.each($(''))
+	//hide webpage onload
+	$('#main').fadeIn(1000);
 
-	}, 100);
-
-//hide webpage onload
-$('#main').fadeIn(800);
-
-
-//Open popup and add contents of First Article://
-	$article.on('click', function(event) {
-		if(event.type == 'click') {
-			event.preventDefault();
-			$popUp.removeClass('loader hidden');
-			$('#popUp h1').html(title1);
-			$('#popUp p').html(title1);
-			$('.popUpAction').click(function(event){
-				event.preventDefault();
-				window.location.href = url;
-				});
-
-			// $.append
-			// $.html
-			// create a for loop and append the 'title' etc. to 'this' article in the list
-		};
-	});
-
-//close popup
+	//close popup
 	$closePopUp.on('click', function(event) {
 		if(event.type == 'click') {
+			event.preventDefault();		
 			$popUp.addClass('loader hidden');
+
 		};
 	});
-
-
-
-
-
-        // <section id="main" class="container">
-          // <article class="article">
-          //   <section class="featuredImage">
-          //     <img src="images/article_placeholder_1.jpg" alt="" />
-          //   </section>
-          //   <section class="articleContent">
-          //       <a href="#"><h3>Test article title</h3></a>
-          //       <h6>Lifestyle</h6>
-          //   </section>
-          //   <section class="impressions">
-          //     526
-          //   </section>
-          //   <div class="clearfix"></div>
-          // </article>
 
 });
