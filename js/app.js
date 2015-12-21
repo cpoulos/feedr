@@ -1,4 +1,7 @@
 window.onload = function() {
+
+	//hide webpage onload
+
 /*
   Please add all Javascript code to this file.
 
@@ -15,31 +18,33 @@ Add an error message (either alert or a notification on the page) if the app can
 
 // Error message -> if returns a 404 then present an error message
 
+//First Article Global Variables//
 	var title;
-	var description;
+	var url;
+	var articlesArray; //array of all of the reddit articles
 
-	
-	var article1 = {
-		"title": "Fake Title",
-		"description" : "blah blah",
-		"url" : "http://www.bbc.com/news/world-europe-35102595",
-		"image" : "article_placeholder_1.jpg" 
-	};
-
+//Variables for jQuery Elements://
 	var $main = $('#main');
 	var $article = $('.article');
 	var $featuredImage = $('.featuredImage');
 	var $popUp = $('#popUp');
 	var $closePopUp = $('.closePopUp');
 
-//open popup and add contents of fake article1:
+//Open popup and add contents of First Article://
 	$article.on('click', function(event) {
 		if(event.type == 'click') {
+			event.preventDefault();
 			$popUp.removeClass('loader hidden');
-			$('#popUp h1').append(title);
+			$('#popUp h1').html(title1);
+			$('#popUp p').html(title1);
+			$('.popUpAction').click(function(event){
+				event.preventDefault();
+				window.location.href = url;
+				});
 
 			// $.append
 			// $.html
+			// create a for loop and append the 'title' etc. to 'this' article in the list
 		};
 	});
 
@@ -51,19 +56,43 @@ Add an error message (either alert or a notification on the page) if the app can
 	});
 
 
+
 //Reddit's API
   $.ajax({
   	url: 'https://www.reddit.com/top.json',
   	success: function(response) {
-  		var articles = response.data.children;
-  		title = response.data.children[0].data.title
-  		var first_article = articles[0]
-  		console.log(response.data.children[0].data.title);
+  		articlesArray = response.data.children;
+
   	}
   });	
 
+  	setTimeout(function() {
+		//set article headers on load
+		$.each($('.articleContent h3'), function(i) {
+			// console.log(articlesArray[i].data.title);		
+			$(this).html(articlesArray[i].data.title);
+			return (this);
+		});
+
+		
+		
+	}, 1000);
 
 
+
+        // <section id="main" class="container">
+          // <article class="article">
+          //   <section class="featuredImage">
+          //     <img src="images/article_placeholder_1.jpg" alt="" />
+          //   </section>
+          //   <section class="articleContent">
+          //       <a href="#"><h3>Test article title</h3></a>
+          //       <h6>Lifestyle</h6>
+          //   </section>
+          //   <section class="impressions">
+          //     526
+          //   </section>
+          //   <div class="clearfix"></div>
+          // </article>
 
 };
-
